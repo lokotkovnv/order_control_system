@@ -30,7 +30,9 @@
 
 Клонируйте репозиторий:
 
-git clone https://github.com/yourusername/order_control_system.git cd order_control_system
+git clone https://github.com/yourusername/order_control_system.git 
+
+cd order_control_system
 
 Создайте и активируйте виртуальное окружение:
 
