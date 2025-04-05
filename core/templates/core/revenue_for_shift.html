@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Выручка за смену{% endblock %}
+
+{% block content %}
+    <h2>Выручка за смену</h2>
+    <p class="total-revenue"><strong>Общая выручка за смену:</strong> {{ total_revenue }} руб.</p>
+    <h3>Оплаченные заказы:</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID заказа</th>
+                <th>Номер стола</th>
+                <th>Общая стоимость</th>
+                <th>Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in paid_orders %}
+                <tr>
+                    <td>Заказ #{{ order.id }}</td>
+                    <td>{{ order.table_number }}</td>
+                    <td>{{ order.total_price }} руб.</td>
+                    <td>{{ order.get_status_display }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'order_list' %}" class="btn" style="margin-top: 20px;">Назад к списку заказов</a>
+{% endblock %}

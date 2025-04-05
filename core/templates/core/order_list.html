@@ -1,0 +1,58 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Список заказов{% endblock %}
+
+{% block content %}
+    <h2 class="page-heading">Список заказов</h2>
+    <form method="get" class="search-form" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+        <label for="search" style="white-space: nowrap;">Поиск:</label>
+        <input type="text" id="search" name="search" placeholder="Номер стола или статус" value="{{ search_query }}">
+        <button type="submit" class="btn btn-fixed">Поиск</button>
+    </form>
+    <div class="create-btn-wrapper" style="margin-bottom: 30px;">
+        <a href="{% url 'order_create' %}" class="btn">Создать заказ</a>
+    </div>
+    {% if orders %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID заказа</th>
+                    <th>Номер стола</th>
+                    <th>Блюда</th>
+                    <th>Общая стоимость</th>
+                    <th>Статус</th>
+                    <th style="width: 160px;">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td><a href="{% url 'order_detail' order.id %}">Заказ #{{ order.id }}</a></td>
+                        <td>{{ order.table_number }}</td>
+                        <td>
+                            {% for item in order.items.all %}
+                                {{ item.name }}<br>
+                            {% empty %}
+                                Нет выбранных блюд
+                            {% endfor %}
+                        </td>
+                        <td>{{ order.total_price }} руб.</td>
+                        <td>{{ order.get_status_display }}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="{% url 'order_update' order.id %}" class="btn btn-fixed">Редактировать</a>
+                                <form action="{% url 'order_delete' order.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-fixed" onclick="return confirm('Удалить этот заказ?');">Удалить</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>По вашему запросу ничего не найдено.</p>
+    {% endif %}
+    <a href="{% url 'order_list' %}" class="btn btn-fixed" style="margin-top: 20px;">Назад к списку заказов</a>
+{% endblock %}
