@@ -36,7 +36,10 @@ cd order_control_system
 
 Создайте и активируйте виртуальное окружение:
 
-python3 -m venv venv source venv/bin/activate # для macOS/Linux venv\Scripts\activate # для Windows
+python3 -m venv venv
+
+source venv/bin/activate # для macOS/Linux 
+source venv/Scripts/activate # для Windows
 
 Установите зависимости:
 
